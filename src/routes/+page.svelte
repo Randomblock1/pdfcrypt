@@ -100,19 +100,16 @@
                 class="file-input file-input-bordered file-input-primary hover:bg-base-200 w-full"
                 type="file"
                 bind:files
-                accept="application/pdf"
-            />
+                accept="application/pdf" />
             <br />
             <label class="label" for="userPassword">User Password</label>
             <input
                 class="input input-bordered hover:bg-base-200 w-full"
                 type="password"
-                bind:value={userPassword}
-            />
+                bind:value={userPassword} />
             <br />
             <button class="btn btn-primary my-4" disabled={!formValid} on:click={handleFiles}
-                >Encrypt</button
-            >
+                >Encrypt</button>
         </div>
     </div>
 
@@ -127,8 +124,7 @@
                 <input
                     class="input input-bordered hover:bg-base-200 w-full my-2"
                     type="password"
-                    bind:value={ownerPassword}
-                />
+                    bind:value={ownerPassword} />
                 <p class="my-2">
                     By default, setting only a user password will require the password to view the
                     file, and enable all permissions. Setting an owner password will allow you to
@@ -141,8 +137,7 @@
                     <input
                         type="checkbox"
                         class="toggle toggle-primary ml-6"
-                        bind:checked={permissions.annotating}
-                    />
+                        bind:checked={permissions.annotating} />
                 </label>
                 <p>Permission to add or modify text annotations</p>
 
@@ -151,8 +146,7 @@
                     <input
                         type="checkbox"
                         class="toggle toggle-primary ml-6"
-                        bind:checked={permissions.fillingForms}
-                    />
+                        bind:checked={permissions.fillingForms} />
                 </label>
                 <p>Fill in existing interactive form fields (including signature fields)</p>
 
@@ -161,8 +155,7 @@
                     <input
                         type="checkbox"
                         class="toggle toggle-primary ml-6"
-                        bind:checked={permissions.documentAssembly}
-                    />
+                        bind:checked={permissions.documentAssembly} />
                 </label>
                 <p>
                     Assemble the document (insert, rotate or delete pages and create bookmarks or
@@ -174,8 +167,7 @@
                     <input
                         type="checkbox"
                         class="toggle toggle-primary ml-6"
-                        bind:checked={permissions.modifying}
-                    />
+                        bind:checked={permissions.modifying} />
                 </label>
                 <p>
                     Content modifications not covered by 'Annotating', 'Filling Forms' and 'Document
@@ -187,8 +179,7 @@
                     <input
                         type="checkbox"
                         class="toggle toggle-primary ml-6"
-                        bind:checked={permissions.copying}
-                    />
+                        bind:checked={permissions.copying} />
                 </label>
                 <p>Copy or otherwise extract text and graphics from document</p>
 
@@ -197,8 +188,7 @@
                     <input
                         type="checkbox"
                         class="toggle toggle-primary ml-6"
-                        bind:checked={printingToggled}
-                    />
+                        bind:checked={printingToggled} />
                 </label>
                 <p>If unchecked, only low-resolution printing will be allowed.</p>
 
@@ -207,8 +197,7 @@
                     <input
                         type="checkbox"
                         class="toggle toggle-primary ml-6"
-                        bind:checked={permissions.contentAccessibility}
-                    />
+                        bind:checked={permissions.contentAccessibility} />
                 </label>
                 <p>
                     Extract text and graphics (in support of accessibility to users with
