@@ -20,13 +20,13 @@
     <slot />
 </main>
 
+<footer class="w-full text-center bottom-0">
+    <a href="https://github.com/randomblock1/pdfcrypt">View source code</a>
+</footer>
+
 {#await import('$lib/ReloadPrompt.svelte') then { default: ReloadPrompt }}
     <ReloadPrompt />
 {/await}
-
-<footer class="absolute w-full text-center bottom-0">
-    <a href="https://github.com/randomblock1/pdfcrypt">View source code</a>
-</footer>
 
 <style>
     h1 {
