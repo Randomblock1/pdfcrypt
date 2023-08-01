@@ -4,8 +4,9 @@
     "description": "Encrypt PDF files quickly and securely",
     "start_url": ".",
     "display": "standalone",
+    "background_color": "#1d232a",
     "id": "/",
-    "theme_color": "#1d232a",
+    "theme_color": "#FF2116",
     "icons": [
         {
             "src": "windows11/SmallTile.scale-100.png",
