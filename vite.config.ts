@@ -8,13 +8,15 @@ export default {
         SvelteKitPWA({
             manifest: JSON.parse(await readFile('./static/manifest.webmanifest', 'utf-8')),
             workbox: {
-                globPatterns: ['client/**/*.{js,css,ico,png,svg,webp,woff,woff2}']
+                globPatterns: ['client/**/*.{js,css,ico,png,svg,webp,woff,woff2}'],
+                cleanupOutdatedCaches: true,
+                skipWaiting: true,
             },
             devOptions: {
                 enabled: true,
                 suppressWarnings: true,
-                type: 'module',
-            },
+                type: 'module'
+            }
         })
     ]
 };
