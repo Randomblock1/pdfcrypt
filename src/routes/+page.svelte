@@ -37,6 +37,7 @@
     }
 
     $: togglePrinting(printingToggled);
+    $: formValid = userPassword !== '' && files?.length > 0;
 
     function download(data: Uint8Array, name: string, mimeType: string) {
         const a = document.createElement('a');
@@ -111,7 +112,7 @@
             <br />
             <button
                 class="btn btn-primary my-4"
-                disabled={userPassword === ''}
+                disabled={!formValid}
                 on:click={handleFiles}>Encrypt</button
             >
         </div>
