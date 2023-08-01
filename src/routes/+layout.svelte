@@ -24,6 +24,10 @@
     <ReloadPrompt />
 {/await}
 
+<footer class="absolute w-full text-center bottom-0">
+    <a href="https://github.com/randomblock1/pdfcrypt">View source code</a>
+</footer>
+
 <style>
     h1 {
         font-family: 'Comfortaa Variable', sans-serif;
