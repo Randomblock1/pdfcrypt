@@ -110,10 +110,8 @@
                 bind:value={userPassword}
             />
             <br />
-            <button
-                class="btn btn-primary my-4"
-                disabled={!formValid}
-                on:click={handleFiles}>Encrypt</button
+            <button class="btn btn-primary my-4" disabled={!formValid} on:click={handleFiles}
+                >Encrypt</button
             >
         </div>
     </div>
@@ -133,8 +131,9 @@
                 />
                 <p class="my-2">
                     By default, setting only a user password will require the password to view the
-                    file. Setting an owner password will allow you to set advanced permissions, like
-                    disallowing printing or signing, for the user.
+                    file, and enable all permissions. Setting an owner password will allow you to
+                    prevent whoever enters the user password from performing cetain actions, like
+                    editing or signing.
                 </p>
 
                 <label class="label cursor-pointer max-w-fit">
