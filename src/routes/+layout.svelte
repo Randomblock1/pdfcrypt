@@ -4,6 +4,8 @@
 
     import { pwaInfo } from 'virtual:pwa-info';
 
+    export const prerender = true;
+
     $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
 
