@@ -16,7 +16,7 @@
     <h1 class="text-4xl rounded-lg p-2.5 bg-primary text-white">PDFCrypt</h1>
     <a href="https://github.com/randomblock1/pdfcrypt">
         <img
-            src="https://github.githubassets.com/images/modules/site/icons/footer/github-mark.svg"
+            src="github.svg"
             alt="GitHub logo"
             class="h-8 m-4" />
     </a>
