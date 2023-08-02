@@ -10,12 +10,11 @@ export default {
             workbox: {
                 globPatterns: ['client/**/*.{js,css,ico,png,svg,webp,woff,woff2}'],
                 cleanupOutdatedCaches: true,
-                skipWaiting: true,
+                skipWaiting: true
             },
             devOptions: {
                 enabled: true,
-                suppressWarnings: true,
-                type: 'module'
+                suppressWarnings: true
             }
         })
     ]
