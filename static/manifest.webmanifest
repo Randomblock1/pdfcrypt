@@ -33,6 +33,22 @@
             "launch_type": "single-client"
         }
     ],
+    "screenshots": [
+        {
+            "src":"screenshots/tablet.png",
+            "sizes":"2360x1640",
+            "type":"image/png",
+            "form_factor": "wide",
+            "label":"What it looks like on a tablet or computer"
+        },
+        {
+            "src":"screenshots/phone.png",
+            "sizes":"1081x2340",
+            "type":"image/png",
+            "form_factor": "narrow",
+            "label":"What it looks like on a phone"
+        }
+    ],
     "icons": [
         {
             "src": "maskable_icon.png",
