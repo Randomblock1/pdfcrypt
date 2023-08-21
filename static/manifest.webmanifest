@@ -1,12 +1,30 @@
 {
     "name": "PDFCrypt - Simple, Secure, Offline",
     "short_name": "PDFCrypt",
-    "description": "Encrypt PDF files quickly and securely",
-    "start_url": ".",
-    "display": "standalone",
-    "background_color": "#1d232a",
+    "description": "Encrypt PDF files quickly and securely.",
+    "lang": "en",
+    "dir": "ltr",
+    "scope": "./",
     "id": "/",
+    "start_url": ".",
+    "handle_links": "preferred",
+    "background_color": "#1d232a",
     "theme_color": "#641ae6",
+    "orientation": "any",
+    "display": "standalone",
+    "display_override": [
+        "window-controls-overlay",
+        "standalone",
+        "browser"
+    ],
+    "categories": [
+        "utilities",
+        "business",
+        "security"
+    ],
+    "launch_handler": {
+        "client_mode": "focus-existing"
+    },
     "icons": [
         {
             "src": "windows11/SmallTile.scale-100.png",
@@ -330,7 +348,8 @@
         },
         {
             "src": "android/android-launchericon-512-512.png",
-            "sizes": "512x512"
+            "sizes": "512x512",
+            "purpose": "any"
         },
         {
             "src": "android/android-launchericon-192-192.png",
