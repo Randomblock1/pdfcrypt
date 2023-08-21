@@ -1,10 +1,58 @@
 <script lang="ts">
     import { PDFDocument } from 'pdf-lib-plus-encrypt';
+    import { onMount } from 'svelte';
 
     let files: FileList;
     let userPassword = '';
     let ownerPassword: string;
     let advanced = false;
+    let isPwa = false;
+
+    onMount(() => {
+        if (
+            window.matchMedia('(display-mode: standalone)').matches ||
+            // @ts-ignore
+            window.navigator.standalone ||
+            document.referrer.includes('android-app://')
+        ) {
+            isPwa = true;
+            console.log('Launched in standalone mode');
+        }
+        // file handler reciever
+        if ('launchQueue' in window) {
+            // @ts-ignore
+            window.launchQueue.setConsumer((launchParams: { files: FileSystemFileHandle[] }) => {
+                loadSharedFiles(launchParams.files);
+            });
+        } else {
+            console.log('File Handling API is not supported!');
+        }
+    });
+
+    export const fileListFromFileArray = (files: File[]) => {
+        const reducer = (dataTransfer: DataTransfer, file: File) => {
+            dataTransfer.items.add(file);
+            return dataTransfer;
+        };
+
+        return files.reduce(reducer, new DataTransfer()).files;
+    };
+
+    async function convertFileHandlesToFileList(fileHandles: FileSystemFileHandle[]) {
+        const files = await Promise.all(
+            fileHandles.map(async (fileHandle) => {
+                return fileHandle.getFile();
+            })
+        );
+
+        const fileList = fileListFromFileArray(files);
+        return fileList;
+    }
+
+    async function loadSharedFiles(handles: FileSystemFileHandle[]) {
+        files = await convertFileHandlesToFileList(handles);
+        (document.getElementById('fileInput') as HTMLInputElement).files = files;
+    }
 
     interface Permissions {
         printing: 'highResolution' | 'lowResolution' | boolean;
@@ -18,7 +66,7 @@
 
     let permissions: Permissions = {
         printing: 'highResolution',
-        modifying: false,
+        modifying: true,
         copying: true,
         annotating: true,
         fillingForms: true,
@@ -91,20 +139,24 @@
         <div class="tile m-4">
             <h2 class="text-2xl">Select an unencrypted PDF file to encrypt</h2>
             <p>
-                This file is encrypted entirely in your browser. It's a progressive web app, so you
-                can even install it and use it offline.
+                This file is encrypted entirely on your device. It doesn't touch another server,
+                ever. If you're viewing this in a web browser, you can install it as a progressive
+                web app.
             </p>
         </div>
         <div class="tile m-4">
+            <label class="label" for="fileInput">PDF(s) to Encrypt</label>
             <input
                 class="file-input file-input-bordered file-input-primary hover:bg-base-200 w-full"
                 type="file"
                 bind:files
+                id="fileInput"
                 accept="application/pdf" />
             <br />
             <label class="label" for="userPassword">User Password</label>
             <input
                 class="input input-bordered hover:bg-base-200 w-full"
+                id="userPassword"
                 type="password"
                 bind:value={userPassword} />
             <br />
@@ -126,10 +178,13 @@
                     type="password"
                     bind:value={ownerPassword} />
                 <p class="my-2">
-                    By default, setting only a user password will require the password to view the
+                    ℹ By default, setting only a user password will require the password to view the
                     file, and enable all permissions. Setting an owner password will allow you to
                     prevent whoever enters the user password from performing cetain actions, like
                     editing or signing.
+                </p>
+                <p class="my-2">
+                    ⚠️ It is up to the PDF reader to enforce these security policies. Some do not.
                 </p>
 
                 <label class="label cursor-pointer max-w-fit">
