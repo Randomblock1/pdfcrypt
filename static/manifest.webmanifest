@@ -4,28 +4,41 @@
     "description": "Encrypt PDF files quickly and securely.",
     "lang": "en",
     "dir": "ltr",
-    "scope": "./",
-    "id": "/",
-    "start_url": ".",
+    "scope": "/",
+    "id": "/?pwa=true",
+    "start_url": "/",
     "handle_links": "preferred",
     "background_color": "#1d232a",
     "theme_color": "#641ae6",
     "orientation": "any",
     "display": "standalone",
-    "display_override": [
-        "window-controls-overlay",
-        "standalone",
-        "browser"
-    ],
-    "categories": [
-        "utilities",
-        "business",
-        "security"
-    ],
+    "display_override": ["window-controls-overlay", "standalone", "browser"],
+    "categories": ["utilities", "business", "security"],
     "launch_handler": {
         "client_mode": "focus-existing"
     },
+    "file_handlers": [
+        {
+            "action": "/",
+            "accept": {
+                "application/pdf": [".pdf"]
+            },
+            "icons": [
+                {
+                    "src": "maskable_icon.png",
+                    "sizes": "512x512",
+                    "type": "image/png"
+                }
+            ],
+            "launch_type": "single-client"
+        }
+    ],
     "icons": [
+        {
+            "src": "maskable_icon.png",
+            "sizes": "512x512",
+            "purpose": "any maskable"
+        },
         {
             "src": "windows11/SmallTile.scale-100.png",
             "sizes": "71x71"
@@ -348,8 +361,7 @@
         },
         {
             "src": "android/android-launchericon-512-512.png",
-            "sizes": "512x512",
-            "purpose": "any"
+            "sizes": "512x512"
         },
         {
             "src": "android/android-launchericon-192-192.png",
