@@ -137,11 +137,10 @@
 <div class="grid md:grid-cols-2">
     <div>
         <div class="tile m-4">
-            <h2 class="text-2xl">Select an unencrypted PDF file to encrypt</h2>
-            <p>
+            <h2 class="text-2xl"><b>Select an unencrypted PDF file to encrypt</b></h2>
+            <p class="mt-2">
                 This file is encrypted entirely on your device. It doesn't touch another server,
-                ever. If you're viewing this in a web browser, you can install it as a progressive
-                web app.
+                ever.
             </p>
         </div>
         <div class="tile m-4">
@@ -160,15 +159,16 @@
                 type="password"
                 bind:value={userPassword} />
             <br />
-            <button class="btn btn-primary my-4" disabled={!formValid} on:click={handleFiles}
-                >Encrypt</button>
+            <button class="btn btn-primary my-4" disabled={!formValid} on:click={handleFiles}>
+                Encrypt
+            </button>
         </div>
     </div>
 
     <div>
         <div class="tile m-4">
             <label class="label cursor-pointer max-w-fit">
-                <h2 class="text-2xl">Advanced Permissions</h2>
+                <h2 class="text-2xl"><b>Advanced Permissions</b></h2>
                 <input type="checkbox" class="toggle toggle-primary ml-6" bind:checked={advanced} />
             </label>
             {#if advanced === true}
