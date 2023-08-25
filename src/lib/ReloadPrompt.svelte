@@ -25,13 +25,15 @@
 
 {#if $offlineReady || $needRefresh}
     <div
-        class="pwa-toast border border-neutral roudned-md shadow-md bg-base-200 shadow-primary text-left p-3 m-4 right-0 bottom-0 z-20 fixed"
+        class="pwa-toast border border-neutral rounded-md shadow-md bg-base-200 shadow-primary text-left p-3 m-4 right-0 bottom-0 z-20 fixed"
         role="alert">
         <div class="mb-2">
             {#if $offlineReady}
-                <span> App ready to work offline </span>
+                <span>App ready to work offline.</span>
+            {:else if $needRefresh}
+                <span>New content available, click on reload button to update.</span>
             {:else}
-                <span> New content available, click on reload button to update. </span>
+                <span>If you can see this, the toast works.</span>
             {/if}
         </div>
         {#if $needRefresh}

@@ -52,8 +52,13 @@
     ],
     "icons": [
         {
-            "src": "maskable_icon.png",
+            "src": "favicon.png",
             "sizes": "512x512",
+            "purpose": "any"
+        },
+        {
+            "src": "maskable_icon.png",
+            "sizes": "1024x1024",
             "purpose": "maskable"
         },
         {
@@ -382,8 +387,7 @@
         },
         {
             "src": "android/android-launchericon-192-192.png",
-            "sizes": "192x192",
-            "purpose": "any"
+            "sizes": "192x192"
         },
         {
             "src": "android/android-launchericon-144-144.png",

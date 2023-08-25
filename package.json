@@ -25,6 +25,7 @@
     "type": "module",
     "dependencies": {
         "@fontsource-variable/comfortaa": "^5.0.5",
+        "@fortawesome/fontawesome-free": "^6.4.2",
         "@sveltejs/adapter-static": "^2.0.0",
         "@sveltejs/kit": "^1.20.4",
         "@vite-pwa/sveltekit": "^0.2.5",

@@ -74,18 +74,8 @@
         documentAssembly: true
     };
 
-    let printingToggled = true;
-
-    function togglePrinting(printingToggled: boolean) {
-        if (printingToggled) {
-            permissions.printing = 'highResolution';
-        } else {
-            permissions.printing = 'lowResolution';
-        }
-    }
-
-    $: togglePrinting(printingToggled);
-    $: formValid = userPassword !== '' && files?.length > 0;
+    $: formValid =
+        userPassword !== '' && files?.length > 0 && (advanced ? ownerPassword !== '' : true);
 
     function download(data: Uint8Array, name: string, mimeType: string) {
         const a = document.createElement('a');
@@ -117,10 +107,15 @@
             return;
         }
 
+        // <= 1.3: 40-bit RC4
+        // <= 1.5: 128-bit RC4
+        // <= 1.7: 128-bit AES
+        // == 1.7ext3: 256-bit AESV3
         await pdfDoc.encrypt({
             userPassword,
             ownerPassword,
-            permissions
+            permissions,
+            pdfVersion: '1.7ext3'
         });
 
         const pdfBytes = await pdfDoc.save();
@@ -151,14 +146,23 @@
                 bind:files
                 id="fileInput"
                 accept="application/pdf" />
-            <br />
             <label class="label" for="userPassword">User Password</label>
             <input
                 class="input input-bordered hover:bg-base-200 w-full"
                 id="userPassword"
                 type="password"
                 bind:value={userPassword} />
-            <br />
+            <p class="mt-2">
+                <i class="fa-solid fa-info-circle fa-sm mr-1" style="color: steelblue" />Setting
+                only a user password will require the password to view the file, and enable all
+                permissions.
+            </p>
+            {#if advanced && !ownerPassword}
+                <div class="alert alert-error my-2">
+                    <i class="fa-solid fa-circle-exclamation" />
+                    You must set an owner password for advanced permissions to work.
+                </div>
+            {/if}
             <button class="btn btn-primary my-4" disabled={!formValid} on:click={handleFiles}>
                 Encrypt
             </button>
@@ -177,14 +181,18 @@
                     class="input input-bordered hover:bg-base-200 w-full my-2"
                     type="password"
                     bind:value={ownerPassword} />
+
                 <p class="my-2">
-                    ℹ By default, setting only a user password will require the password to view the
-                    file, and enable all permissions. Setting an owner password will allow you to
-                    prevent whoever enters the user password from performing cetain actions, like
-                    editing or signing.
+                    <i class="fa-solid fa-info-circle fa-sm" style="color: steelblue" />
+                    Setting an owner password will allow you to prevent whoever enters the user password
+                    from performing cetain actions, like editing or signing. The owner password will
+                    still have full permissions.
                 </p>
                 <p class="my-2">
-                    ⚠️ It is up to the PDF reader to enforce these security policies. Some do not.
+                    <i
+                        class="fa-solid fa-triangle-exclamation fa-fade fa-sm"
+                        style="color: orange;" />
+                    It is up to the PDF reader to enforce these security policies. Some do not.
                 </p>
 
                 <label class="label cursor-pointer max-w-fit">
@@ -239,13 +247,21 @@
                 <p>Copy or otherwise extract text and graphics from document</p>
 
                 <label class="label cursor-pointer max-w-fit">
-                    <h3 class="text-lg">High Resolution Printing</h3>
-                    <input
-                        type="checkbox"
-                        class="toggle toggle-primary ml-6"
-                        bind:checked={printingToggled} />
+                    <h3 class="text-lg">Printing</h3>
+                    <select
+                        class="select select-bordered select-primary ml-6"
+                        bind:value={permissions.printing}>
+                        <option value="highResolution">High Resolution</option>
+                        <option value="lowResolution">Low Resolution</option>
+                        <option value={false}>Disabled</option>
+                    </select>
                 </label>
-                <p>If unchecked, only low-resolution printing will be allowed.</p>
+                <p>
+                    High Resolution vs Low Resolution: "Printing to a representation from which a
+                    faithful digital copy of the PDF content could be generated. Disallowing such
+                    printing may result in degradation of output quality." - PDF Specification.
+                    Note: not all common PDF viewers follow resolution rules.
+                </p>
 
                 <label class="label cursor-pointer max-w-fit">
                     <h3 class="text-lg">Content Accessibility</h3>
