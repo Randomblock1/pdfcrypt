@@ -26,7 +26,7 @@
             "icons": [
                 {
                     "src": "maskable_icon.png",
-                    "sizes": "512x512",
+                    "sizes": "1024x1024",
                     "type": "image/png"
                 }
             ],
@@ -36,15 +36,15 @@
     "iarc_rating_id": "38b600b5-cc05-4209-baa0-f28c08998278",
     "screenshots": [
         {
-            "src":"screenshots/tablet.png",
-            "sizes":"2360x1640",
+            "src":"screenshots/computer.png",
+            "sizes":"3840x2160",
             "type":"image/png",
             "form_factor": "wide",
             "label":"What it looks like on a tablet or computer"
         },
         {
             "src":"screenshots/phone.png",
-            "sizes":"1081x2340",
+            "sizes":"1442x3202",
             "type":"image/png",
             "form_factor": "narrow",
             "label":"What it looks like on a phone"
