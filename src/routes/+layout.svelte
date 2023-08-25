@@ -3,16 +3,12 @@
     import '@fontsource-variable/comfortaa';
 
     import { pwaInfo } from 'virtual:pwa-info';
-    // font awesome
-    import '@fortawesome/fontawesome-free';
+    import '@fortawesome/fontawesome-free/js/all.js'
 
     $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
 
 <svelte:head>
-    <link
-        rel="stylesheet"
-        href="http://cdn.jsdelivr.net/gh/duyplus/fontawesome-pro/css/all.min.css" />
     {@html webManifest}
 </svelte:head>
 
