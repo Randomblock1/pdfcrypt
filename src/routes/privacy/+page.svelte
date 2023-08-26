@@ -2,7 +2,7 @@
     <title>PDFCrypt - Privacy Policy</title>
 </svelte:head>
 
-<div class="m-8">
+<div class="m-8 tile">
     <h1 class="text-3xl rounded-lg p-2.5 bg-primary text-white mb-4 w-fit">Privacy Policy</h1>
     <ol>
         <li>
@@ -24,3 +24,13 @@
     </ol>
     <a href="/"><button class="btn btn-primary my-4">Go Back</button></a>
 </div>
+
+<style>
+    .tile {
+        line-height: 1.6;
+        padding: 1.5rem;
+        border: hsl(var(--p)) solid 2px;
+        border-radius: 10px;
+        background: hsl(var(--b2));
+    }
+</style>
