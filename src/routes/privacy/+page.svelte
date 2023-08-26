@@ -1,3 +1,7 @@
+<svelte:head>
+    <title>PDFCrypt - Privacy Policy</title>
+</svelte:head>
+
 <div class="m-8">
     <h1 class="text-3xl rounded-lg p-2.5 bg-primary text-white mb-4 w-fit">Privacy Policy</h1>
     <ol>

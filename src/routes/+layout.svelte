@@ -10,6 +10,7 @@
 
 <svelte:head>
     {@html webManifest}
+    <meta name="description" content="Encrypt PDF files securely and quickly in your browser" />
 </svelte:head>
 
 <div class="flex flex-wrap sm:flex-row">

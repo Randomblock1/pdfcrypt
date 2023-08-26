@@ -1,4 +1,8 @@
-<script type="module" src="https://get.microsoft.com/badge/ms-store-badge.bundled.js"></script>
+<svelte:head>
+    <title>PDFCrypt - Installation</title>    
+    <script type="module" src="https://get.microsoft.com/badge/ms-store-badge.bundled.js" />
+</svelte:head>
+
 <div class="m-8">
     <h1 class="text-3xl rounded-lg p-2.5 bg-primary text-white my-4 w-fit">Installation</h1>
     <p>
@@ -28,7 +32,7 @@
     <p>
         Good news! This app is available in the Microsoft Store.
     </p>
-    <ms-store-badge
+    <ms-store-badge class='my-2'
 	    productid="9PCHG45LJXZN"
 	    cid="installtab"
 	    theme="auto"

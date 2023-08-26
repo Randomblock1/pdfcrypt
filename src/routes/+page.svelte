@@ -125,8 +125,7 @@
 </script>
 
 <svelte:head>
-    <title>PDFCrypt</title>
-    <meta name="description" content="Encrypt PDF files securely and quickly in your browser" />
+    <title>PDFCrypt - Encrypt PDF</title>
 </svelte:head>
 
 <div class="grid md:grid-cols-2">
