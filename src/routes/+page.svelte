@@ -75,7 +75,7 @@
     };
 
     $: formValid =
-        userPassword !== '' && files?.length > 0 && (advanced ? ownerPassword !== '' : true);
+        (userPassword || ownerPassword) && files?.length > 0 && (advanced ? ownerPassword : true);
 
     function download(data: Uint8Array, name: string, mimeType: string) {
         const a = document.createElement('a');
@@ -111,11 +111,11 @@
         // <= 1.5: 128-bit RC4
         // <= 1.7: 128-bit AES
         // == 1.7ext3: 256-bit AESV3
+        // at least it's supposed to be, I think the software is bugged and ignores it
         await pdfDoc.encrypt({
             userPassword,
             ownerPassword,
-            permissions,
-            pdfVersion: '1.7ext3'
+            permissions
         });
 
         const pdfBytes = await pdfDoc.save();
@@ -185,7 +185,8 @@
                     <i class="fa-solid fa-info-circle fa-sm" style="color: steelblue" />
                     Setting an owner password will allow you to prevent whoever enters the user password
                     from performing cetain actions, like editing or signing. The owner password will
-                    still have full permissions.
+                    still have full permissions. If you only set the owner password, the user permissions
+                    still apply, and you can enter the owner password to enable all permissions.
                 </p>
                 <p class="my-2">
                     <i
