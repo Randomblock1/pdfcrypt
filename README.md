@@ -11,5 +11,6 @@ You can visit https://pdfcrypt.randomblock1.com to check it out. Once you want t
 [![Microsoft Store install button](https://get.microsoft.com/images/en-US%20dark.svg)](https://apps.microsoft.com/store/detail/9PCHG45LJXZN?launch=true&cid=readme&mode=mini)
 
 ## Screenshots
+
 ![phone screenshot](static/screenshots/phone.png)
 ![desktop screenshot](static/screenshots/computer.png)

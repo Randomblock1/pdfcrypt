@@ -6,18 +6,8 @@
     let userPassword = '';
     let ownerPassword: string;
     let advanced = false;
-    let isPwa = false;
 
     onMount(() => {
-        if (
-            window.matchMedia('(display-mode: standalone)').matches ||
-            // @ts-ignore
-            window.navigator.standalone ||
-            document.referrer.includes('android-app://')
-        ) {
-            isPwa = true;
-            console.log('Launched in standalone mode');
-        }
         // file handler reciever
         if ('launchQueue' in window) {
             // @ts-ignore
