@@ -22,7 +22,7 @@
                 cid="installtab"
                 theme="dark"
                 language="en-US"
-                animation="on" />
+                animation="on"></ms-store-badge>
             <p>
                 If you don't want to use the Microsoft Store, you can install it manually. Follow
                 these instructions:
@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <a href="/" class="mx-4"><button class="btn btn-primary mb-4">Go Back</button></a>
+    <a href="/" class="mx-4"><button class="btn btn-primary text-white mb-4">Go Back</button></a>
 </div>
 
 <style>

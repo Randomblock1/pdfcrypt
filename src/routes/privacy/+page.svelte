@@ -24,7 +24,7 @@
     </ol>
 </div>
 
-<a href="/" class="mx-4"><button class="btn btn-primary my-4">Go Back</button></a>
+<a href="/" class="mx-4"><button class="btn btn-primary text-white my-4">Go Back</button></a>
 
 <style>
     .tile {

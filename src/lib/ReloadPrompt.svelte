@@ -4,10 +4,13 @@
         onRegistered(r) {
             // uncomment following code if you want check for updates
             r &&
-                setInterval(() => {
-                    console.log('Checking for sw update');
-                    r.update();
-                }, 1000 * 60 * 60 * 24 /* 1 day */);
+                setInterval(
+                    () => {
+                        console.log('Checking for sw update');
+                        r.update();
+                    },
+                    1000 * 60 * 60 * 24 /* 1 day */
+                );
             console.log(`SW Registered: ${r}`);
         },
         onRegisterError(error) {
@@ -39,13 +42,13 @@
         {#if $needRefresh}
             <button
                 class="border border-base-content rounded-md mr-1.5 px-3 py-1 hover:bg-primary-focus"
-                on:click={refresh}>
+                onclick={refresh}>
                 Reload
             </button>
         {/if}
         <button
             class="border border-base-content rounded-md mr-1.5 px-3 py-1 hover:bg-primary-focus"
-            on:click={close}>
+            onclick={close}>
             Close
         </button>
     </div>

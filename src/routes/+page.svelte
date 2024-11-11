@@ -2,10 +2,10 @@
     import { PDFDocument } from 'pdf-lib-plus-encrypt';
     import { onMount } from 'svelte';
 
-    let files: FileList;
-    let userPassword = '';
-    let ownerPassword: string;
-    let advanced = false;
+    let files: FileList | undefined = $state();
+    let userPassword = $state('');
+    let ownerPassword: string = $state('');
+    let advanced = $state(false);
 
     onMount(() => {
         // file handler reciever
@@ -54,7 +54,7 @@
         documentAssembly: boolean;
     }
 
-    let permissions: Permissions = {
+    let permissions: Permissions = $state({
         printing: 'highResolution',
         modifying: true,
         copying: true,
@@ -62,10 +62,14 @@
         fillingForms: true,
         contentAccessibility: true,
         documentAssembly: true
-    };
+    });
 
-    $: formValid =
-        (userPassword || ownerPassword) && files?.length > 0 && (advanced ? ownerPassword : true);
+    let formValid = $derived(
+        (userPassword.length > 0 || ownerPassword.length > 0) &&
+            files &&
+            files?.length > 0 &&
+            (advanced ? ownerPassword : true)
+    );
 
     function download(data: Uint8Array, name: string, mimeType: string) {
         const a = document.createElement('a');
@@ -78,6 +82,7 @@
     }
 
     async function handleFiles() {
+        if (!files) return;
         for (let i = 0; i < files.length; i++) {
             const item = files.item(i);
             if (item) {
@@ -142,17 +147,17 @@
                 type="password"
                 bind:value={userPassword} />
             <p class="mt-2">
-                <i class="fa-solid fa-info-circle fa-sm mr-1" style="color: steelblue" />Setting
-                only a user password will require the password to view the file, and enable all
+                <span class="fa-solid fa-info-circle fa-sm mr-1" style="color: steelblue"></span>
+                Setting only a user password will require the password to view the file, and enable all
                 permissions.
             </p>
             {#if advanced && !ownerPassword}
                 <div class="alert alert-error my-2">
-                    <i class="fa-solid fa-circle-exclamation" />
+                    <span class="fa-solid fa-circle-exclamation"></span>
                     You must set an owner password for advanced permissions to work.
                 </div>
             {/if}
-            <button class="btn btn-primary my-4" disabled={!formValid} on:click={handleFiles}>
+            <button class="btn btn-primary my-4" disabled={!formValid} onclick={handleFiles}>
                 Encrypt
             </button>
         </div>
@@ -172,16 +177,16 @@
                     bind:value={ownerPassword} />
 
                 <p class="my-2">
-                    <i class="fa-solid fa-info-circle fa-sm" style="color: steelblue" />
+                    <span class="fa-solid fa-info-circle fa-sm" style="color: steelblue"></span>
                     Setting an owner password will allow you to prevent whoever enters the user password
                     from performing cetain actions, like editing or signing. The owner password will
                     still have full permissions. If you only set the owner password, the user permissions
                     still apply, and you can enter the owner password to enable all permissions.
                 </p>
                 <p class="my-2">
-                    <i
+                    <span
                         class="fa-solid fa-triangle-exclamation fa-fade fa-sm"
-                        style="color: orange;" />
+                        style="color: orange;"></span>
                     It is up to the PDF reader to enforce these security policies. Some do not.
                 </p>
 

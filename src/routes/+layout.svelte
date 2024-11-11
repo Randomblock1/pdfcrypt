@@ -6,9 +6,14 @@
     import '@fortawesome/fontawesome-free/js/all.js';
     import { onMount } from 'svelte';
 
-    $: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
+    let webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
 
-    export let isPwa = false;
+    interface Props {
+        isPwa?: boolean;
+        children?: import('svelte').Snippet;
+    }
+
+    let { isPwa = $bindable(false), children }: Props = $props();
 
     onMount(() => {
         if (
@@ -37,9 +42,9 @@
         <li>
             <a href="/install">
                 {#if isPwa}
-                    Installed<i class="fa-solid fa-check" />
+                    Installed<span class="fa-solid fa-check"></span>
                 {:else}
-                    Install<i class="fa-solid fa-download" />
+                    Install<span class="fa-solid fa-download"></span>
                 {/if}
             </a>
         </li>
@@ -49,18 +54,18 @@
                 target="_blank"
                 rel="noopener noreferrer">
                 Source Code
-                <i class="fa-solid fa-code" />
+                <span class="fa-solid fa-code"></span>
             </a>
         </li>
-        <li><a href="/privacy">Privacy Policy<i class="fa-solid fa-eye-slash" /></a></li>
+        <li><a href="/privacy">Privacy Policy<span class="fa-solid fa-eye-slash"></span></a></li>
     </ul>
 </div>
 
 <main>
-    <slot />
+    {@render children?.()}
 </main>
 
-<footer style="text-align: center;" />
+<footer style="text-align: center;"></footer>
 
 {#await import('$lib/ReloadPrompt.svelte') then { default: ReloadPrompt }}
     <ReloadPrompt />
