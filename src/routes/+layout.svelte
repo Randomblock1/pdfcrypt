@@ -5,8 +5,10 @@
     import { pwaInfo } from 'virtual:pwa-info';
     import '@fortawesome/fontawesome-free/js/all.js';
     import { onMount } from 'svelte';
+    import { page } from '$app/stores';
 
     let webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
+    let isHomePage = $derived($page.url.pathname === '/');
 
     interface Props {
         isPwa?: boolean;
@@ -35,12 +37,17 @@
 <div class="flex flex-wrap sm:flex-row">
     <a href="/" class="flex items-center m-4">
         <img src="favicon.svg" alt="PDFCrypt" class="h-16 align-middle mx-4" />
-        <h1 class="text-4xl rounded-lg p-2.5 bg-primary text-white">PDFCrypt</h1>
+        <h1
+            class="text-4xl rounded-lg p-2.5 {isHomePage
+                ? 'bg-primary text-white'
+                : 'border-primary border-2 text-primary bg-transparent'}">
+            PDFCrypt
+        </h1>
     </a>
     <ul
         class="menu menu-horizontal bg-base-200 rounded-box mx-4 w-full md:w-fit md:my-8 items-center justify-self-center">
         <li>
-            <a href="/install">
+            <a href="/install" class:active={$page.url.pathname === '/install'}>
                 {#if isPwa}
                     Installed<span class="fa-solid fa-check"></span>
                 {:else}
@@ -57,7 +64,10 @@
                 <span class="fa-solid fa-code"></span>
             </a>
         </li>
-        <li><a href="/privacy">Privacy Policy<span class="fa-solid fa-eye-slash"></span></a></li>
+        <li>
+            <a href="/privacy" class:active={$page.url.pathname === '/privacy'}
+                >Privacy Policy<span class="fa-solid fa-eye-slash"></span></a>
+        </li>
     </ul>
 </div>
 
