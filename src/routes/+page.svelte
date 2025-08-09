@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { PDFDocument } from 'pdf-lib-plus-encrypt';
+    import pkg from 'pdf-lib-plus-encrypt';
+    const { PDFDocument } = pkg;
     import { onMount } from 'svelte';
 
     let files: FileList | undefined = $state();
