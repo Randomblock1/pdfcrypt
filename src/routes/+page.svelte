@@ -7,6 +7,7 @@
     let ownerPassword: string = $state('');
     let advanced = $state(false);
     let qpdf: any = null;
+    let isEncrypting = $state(false);
 
     onMount(async () => {
         // Initialize QPDF WASM module
@@ -24,8 +25,8 @@
                                 console.warn('Error creating directories:', e);
                             }
                         }
-                    },
-                ],
+                    }
+                ]
             });
             console.log('QPDF WASM module initialized successfully');
         } catch (error) {
@@ -93,7 +94,8 @@
             files &&
             files?.length > 0 &&
             (advanced ? ownerPassword : true) &&
-            qpdf !== null
+            qpdf !== null &&
+            !isEncrypting
     );
 
     function download(data: Uint8Array, name: string, mimeType: string) {
@@ -108,11 +110,16 @@
 
     async function handleFiles() {
         if (!files) return;
-        for (let i = 0; i < files.length; i++) {
-            const item = files.item(i);
-            if (item) {
-                await encrypt(item);
+        isEncrypting = true;
+        try {
+            for (let i = 0; i < files.length; i++) {
+                const item = files.item(i);
+                if (item) {
+                    await encrypt(item);
+                }
             }
+        } finally {
+            isEncrypting = false;
         }
     }
 
@@ -135,17 +142,23 @@
             qpdf.FS.writeFile(inputPath, uint8Array);
 
             // Build QPDF command arguments
-            const args = [
-                inputPath,
-                '--encrypt'
-            ];
+            const args = [inputPath, '--encrypt'];
+
+            // Fix for QPDF security requirement: when using 256-bit encryption,
+            // if user password is set but owner password is empty, set owner password
+            // to user password to avoid the "insecure" error
+            let effectiveUserPassword = userPassword;
+            let effectiveOwnerPassword = ownerPassword;
+            if (userPassword && !ownerPassword) {
+                effectiveOwnerPassword = userPassword;
+            }
 
             // Add passwords if provided
-            if (userPassword) {
-                args.push(`--user-password=${userPassword}`);
+            if (effectiveUserPassword) {
+                args.push(`--user-password=${effectiveUserPassword}`);
             }
-            if (ownerPassword) {
-                args.push(`--owner-password=${ownerPassword}`);
+            if (effectiveOwnerPassword) {
+                args.push(`--owner-password=${effectiveOwnerPassword}`);
             }
 
             // Use 256-bit encryption for security
@@ -211,7 +224,6 @@
 
             // Download the encrypted PDF
             download(outputFile, 'pdfcrypt-' + item.name, 'application/pdf');
-
         } catch (error) {
             console.error('Encryption error:', error);
             alert('Error encrypting PDF: ' + error);
@@ -249,7 +261,8 @@
             <p class="mt-2">
                 <span class="fa-solid fa-info-circle fa-sm mr-1" style="color: steelblue"></span>
                 Setting only a user password will require the password to view the file, and enable all
-                permissions.
+                permissions. For security with 256-bit encryption, the owner password will be automatically
+                set to match the user password.
             </p>
             {#if advanced && !ownerPassword}
                 <div class="alert alert-error my-2">
@@ -258,7 +271,12 @@
                 </div>
             {/if}
             <button class="btn btn-primary my-4" disabled={!formValid} onclick={handleFiles}>
-                Encrypt
+                {#if isEncrypting}
+                    <span class="loading loading-spinner loading-sm"></span>
+                    Encrypting...
+                {:else}
+                    Encrypt
+                {/if}
             </button>
         </div>
     </div>
