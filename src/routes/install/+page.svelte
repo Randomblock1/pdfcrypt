@@ -11,9 +11,9 @@
     </p>
 </div>
 
-<div class="grid md:grid-cols-2">
-    <div>
-        <div class="tile m-4 h-fit">
+<div class="grid md:grid-cols-2 gap-4">
+    <div class="space-y-4">
+        <div class="tile mx-4 h-fit">
             <h2 class="text-2xl rounded-lg p-2.5 bg-primary text-white mb-4 w-fit">Windows</h2>
             <p>Good news! This app is available in the Microsoft Store.</p>
             <ms-store-badge
@@ -34,7 +34,7 @@
             </ol>
         </div>
 
-        <div class="tile m-4 h-fit">
+        <div class="tile mx-4 h-fit">
             <h2 class="text-2xl rounded-lg p-2.5 bg-primary text-white mb-4 w-fit">Android</h2>
             <p>
                 Chrome-based Android browsers have a little drawer appear at the bottom of the
@@ -49,8 +49,8 @@
             </ol>
         </div>
     </div>
-    <div>
-        <div class="tile m-4 h-fit">
+    <div class="space-y-4">
+        <div class="tile mx-4 h-fit">
             <h2 class="text-2xl rounded-lg p-2.5 bg-primary text-white mb-4 w-fit">iOS</h2>
             <ol>
                 <li>- Open the app in Safari.</li>
@@ -60,7 +60,7 @@
             </ol>
         </div>
 
-        <div class="tile m-4 h-fit">
+        <div class="tile mx-4 h-fit">
             <h2 class="text-2xl rounded-lg p-2.5 bg-primary text-white mb-4 w-fit">MacOS</h2>
             <ol>
                 <li>- Open the app in Edge or Chrome.</li>
@@ -69,8 +69,10 @@
             </ol>
         </div>
     </div>
+</div>
 
-    <a href="/" class="mx-4"><button class="btn btn-primary text-white mb-4">Go Back</button></a>
+<div class="mx-4 mt-6">
+    <a href="/"><button class="btn btn-primary text-white">Go Back</button></a>
 </div>
 
 <style>

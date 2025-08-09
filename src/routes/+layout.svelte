@@ -32,15 +32,14 @@
     <meta name="description" content="Encrypt PDF files securely and quickly in your browser" />
 </svelte:head>
 
-<div class="flex flex-wrap sm:flex-row">
-    <a href="/" class="flex items-center m-4">
-        <img src="favicon.svg" alt="PDFCrypt" class="h-16 align-middle mx-4" />
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4">
+    <a href="/" class="flex items-center gap-4">
+        <img src="favicon.svg" alt="PDFCrypt" class="h-16" />
         <h1 class="text-4xl rounded-lg p-2.5 bg-primary text-white">PDFCrypt</h1>
     </a>
-    <ul
-        class="menu menu-horizontal bg-base-200 rounded-box mx-4 w-full md:w-fit md:my-8 items-center justify-self-center">
+    <nav class="menu menu-horizontal bg-base-200 rounded-box w-full sm:w-fit flex justify-center">
         <li>
-            <a href="/install">
+            <a href="/install" class="flex items-center gap-2">
                 {#if isPwa}
                     Installed<span class="fa-solid fa-check"></span>
                 {:else}
@@ -52,13 +51,17 @@
             <a
                 href="https://github.com/randomblock1/pdfcrypt"
                 target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+                class="flex items-center gap-2">
                 Source Code
                 <span class="fa-solid fa-code"></span>
             </a>
         </li>
-        <li><a href="/privacy">Privacy Policy<span class="fa-solid fa-eye-slash"></span></a></li>
-    </ul>
+        <li>
+            <a href="/privacy" class="flex items-center gap-2"
+                >Privacy Policy<span class="fa-solid fa-eye-slash"></span></a>
+        </li>
+    </nav>
 </div>
 
 <main>

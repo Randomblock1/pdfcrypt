@@ -1,6 +1,6 @@
 <script lang="ts">
-    import pkg from 'pdf-lib-plus-encrypt';
-    const { PDFDocument } = pkg;
+    import * as pdfLibPlus from 'pdf-lib-plus-encrypt';
+    const { PDFDocument } = pdfLibPlus;
     import { onMount } from 'svelte';
 
     let files: FileList | undefined = $state();
@@ -124,16 +124,16 @@
     <title>PDFCrypt - Encrypt PDF</title>
 </svelte:head>
 
-<div class="grid md:grid-cols-2">
-    <div>
-        <div class="tile m-4">
+<div class="grid md:grid-cols-2 gap-6 p-4">
+    <div class="space-y-6">
+        <div class="tile">
             <h2 class="text-2xl"><b>Select an unencrypted PDF file to encrypt</b></h2>
             <p class="mt-2">
                 This file is encrypted entirely on your device. It doesn't touch another server,
                 ever.
             </p>
         </div>
-        <div class="tile m-4">
+        <div class="tile">
             <label class="label" for="fileInput">PDF(s) to Encrypt</label>
             <input
                 class="file-input file-input-bordered file-input-primary hover:bg-base-200 w-full"
@@ -165,111 +165,143 @@
     </div>
 
     <div>
-        <div class="tile m-4">
+        <div class="tile">
             <label class="label cursor-pointer max-w-fit">
                 <h2 class="text-2xl"><b>Advanced Permissions</b></h2>
                 <input type="checkbox" class="toggle toggle-primary ml-6" bind:checked={advanced} />
             </label>
             {#if advanced === true}
-                <label class="label" for="ownerPassword">Owner Password</label>
-                <input
-                    class="input input-bordered hover:bg-base-200 w-full my-2"
-                    type="password"
-                    bind:value={ownerPassword} />
+                <div class="space-y-4 mt-4">
+                    <div>
+                        <label class="label" for="ownerPassword">Owner Password</label>
+                        <input
+                            class="input input-bordered hover:bg-base-200 w-full"
+                            type="password"
+                            bind:value={ownerPassword} />
+                    </div>
 
-                <p class="my-2">
-                    <span class="fa-solid fa-info-circle fa-sm" style="color: steelblue"></span>
-                    Setting an owner password will allow you to prevent whoever enters the user password
-                    from performing cetain actions, like editing or signing. The owner password will
-                    still have full permissions. If you only set the owner password, the user permissions
-                    still apply, and you can enter the owner password to enable all permissions.
-                </p>
-                <p class="my-2">
-                    <span
-                        class="fa-solid fa-triangle-exclamation fa-fade fa-sm"
-                        style="color: orange;"></span>
-                    It is up to the PDF reader to enforce these security policies. Some do not.
-                </p>
+                    <div class="space-y-2">
+                        <p>
+                            <span class="fa-solid fa-info-circle fa-sm" style="color: steelblue"
+                            ></span>
+                            Setting an owner password will allow you to prevent whoever enters the user
+                            password from performing cetain actions, like editing or signing. The owner
+                            password will still have full permissions. If you only set the owner password,
+                            the user permissions still apply, and you can enter the owner password to
+                            enable all permissions.
+                        </p>
+                        <p>
+                            <span
+                                class="fa-solid fa-triangle-exclamation fa-fade fa-sm"
+                                style="color: orange;"></span>
+                            It is up to the PDF reader to enforce these security policies. Some do not.
+                        </p>
+                    </div>
 
-                <label class="label cursor-pointer max-w-fit">
-                    <h3 class="text-lg">Annotating</h3>
-                    <input
-                        type="checkbox"
-                        class="toggle toggle-primary ml-6"
-                        bind:checked={permissions.annotating} />
-                </label>
-                <p>Permission to add or modify text annotations</p>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="label cursor-pointer max-w-fit">
+                                <h3 class="text-lg">Annotating</h3>
+                                <input
+                                    type="checkbox"
+                                    class="toggle toggle-primary ml-6"
+                                    bind:checked={permissions.annotating} />
+                            </label>
+                            <p class="text-sm opacity-75">
+                                Permission to add or modify text annotations
+                            </p>
+                        </div>
 
-                <label class="label cursor-pointer max-w-fit">
-                    <h3 class="text-lg">Filling Forms</h3>
-                    <input
-                        type="checkbox"
-                        class="toggle toggle-primary ml-6"
-                        bind:checked={permissions.fillingForms} />
-                </label>
-                <p>Fill in existing interactive form fields (including signature fields)</p>
+                        <div>
+                            <label class="label cursor-pointer max-w-fit">
+                                <h3 class="text-lg">Filling Forms</h3>
+                                <input
+                                    type="checkbox"
+                                    class="toggle toggle-primary ml-6"
+                                    bind:checked={permissions.fillingForms} />
+                            </label>
+                            <p class="text-sm opacity-75">
+                                Fill in existing interactive form fields (including signature
+                                fields)
+                            </p>
+                        </div>
 
-                <label class="label cursor-pointer max-w-fit">
-                    <h3 class="text-lg">Document Assembly</h3>
-                    <input
-                        type="checkbox"
-                        class="toggle toggle-primary ml-6"
-                        bind:checked={permissions.documentAssembly} />
-                </label>
-                <p>
-                    Assemble the document (insert, rotate or delete pages and create bookmarks or
-                    thumbnail images)
-                </p>
+                        <div>
+                            <label class="label cursor-pointer max-w-fit">
+                                <h3 class="text-lg">Document Assembly</h3>
+                                <input
+                                    type="checkbox"
+                                    class="toggle toggle-primary ml-6"
+                                    bind:checked={permissions.documentAssembly} />
+                            </label>
+                            <p class="text-sm opacity-75">
+                                Assemble the document (insert, rotate or delete pages and create
+                                bookmarks or thumbnail images)
+                            </p>
+                        </div>
 
-                <label class="label cursor-pointer max-w-fit">
-                    <h3 class="text-lg">Modification</h3>
-                    <input
-                        type="checkbox"
-                        class="toggle toggle-primary ml-6"
-                        bind:checked={permissions.modifying} />
-                </label>
-                <p>
-                    Content modifications not covered by 'Annotating', 'Filling Forms' and 'Document
-                    Assembly'
-                </p>
+                        <div>
+                            <label class="label cursor-pointer max-w-fit">
+                                <h3 class="text-lg">Modification</h3>
+                                <input
+                                    type="checkbox"
+                                    class="toggle toggle-primary ml-6"
+                                    bind:checked={permissions.modifying} />
+                            </label>
+                            <p class="text-sm opacity-75">
+                                Content modifications not covered by 'Annotating', 'Filling Forms'
+                                and 'Document Assembly'
+                            </p>
+                        </div>
 
-                <label class="label cursor-pointer max-w-fit">
-                    <h3 class="text-lg">Copying</h3>
-                    <input
-                        type="checkbox"
-                        class="toggle toggle-primary ml-6"
-                        bind:checked={permissions.copying} />
-                </label>
-                <p>Copy or otherwise extract text and graphics from document</p>
+                        <div>
+                            <label class="label cursor-pointer max-w-fit">
+                                <h3 class="text-lg">Copying</h3>
+                                <input
+                                    type="checkbox"
+                                    class="toggle toggle-primary ml-6"
+                                    bind:checked={permissions.copying} />
+                            </label>
+                            <p class="text-sm opacity-75">
+                                Copy or otherwise extract text and graphics from document
+                            </p>
+                        </div>
 
-                <label class="label cursor-pointer max-w-fit">
-                    <h3 class="text-lg">Printing</h3>
-                    <select
-                        class="select select-bordered select-primary ml-6"
-                        bind:value={permissions.printing}>
-                        <option value="highResolution">High Resolution</option>
-                        <option value="lowResolution">Low Resolution</option>
-                        <option value={false}>Disabled</option>
-                    </select>
-                </label>
-                <p>
-                    High Resolution vs Low Resolution: "Printing to a representation from which a
-                    faithful digital copy of the PDF content could be generated. Disallowing such
-                    printing may result in degradation of output quality." - PDF Specification.
-                    Note: not all common PDF viewers follow resolution rules.
-                </p>
+                        <div>
+                            <label class="label cursor-pointer max-w-fit">
+                                <h3 class="text-lg">Printing</h3>
+                                <select
+                                    class="select select-bordered select-primary ml-6"
+                                    bind:value={permissions.printing}>
+                                    <option value="highResolution">High Resolution</option>
+                                    <option value="lowResolution">Low Resolution</option>
+                                    <option value={false}>Disabled</option>
+                                </select>
+                            </label>
+                            <p class="text-sm opacity-75">
+                                High Resolution vs Low Resolution: "Printing to a representation
+                                from which a faithful digital copy of the PDF content could be
+                                generated. Disallowing such printing may result in degradation of
+                                output quality." - PDF Specification. Note: not all common PDF
+                                viewers follow resolution rules.
+                            </p>
+                        </div>
 
-                <label class="label cursor-pointer max-w-fit">
-                    <h3 class="text-lg">Content Accessibility</h3>
-                    <input
-                        type="checkbox"
-                        class="toggle toggle-primary ml-6"
-                        bind:checked={permissions.contentAccessibility} />
-                </label>
-                <p>
-                    Extract text and graphics (in support of accessibility to users with
-                    disabilities or for other purposes)
-                </p>
+                        <div>
+                            <label class="label cursor-pointer max-w-fit">
+                                <h3 class="text-lg">Content Accessibility</h3>
+                                <input
+                                    type="checkbox"
+                                    class="toggle toggle-primary ml-6"
+                                    bind:checked={permissions.contentAccessibility} />
+                            </label>
+                            <p class="text-sm opacity-75">
+                                Extract text and graphics (in support of accessibility to users with
+                                disabilities or for other purposes)
+                            </p>
+                        </div>
+                    </div>
+                </div>
             {/if}
         </div>
     </div>

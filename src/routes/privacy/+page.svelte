@@ -22,9 +22,11 @@
             website to update itself.
         </li>
     </ol>
-</div>
 
-<a href="/" class="mx-4"><button class="btn btn-primary text-white my-4">Go Back</button></a>
+    <div class="mt-6">
+        <a href="/"><button class="btn btn-primary text-white">Go Back</button></a>
+    </div>
+</div>
 
 <style>
     .tile {
