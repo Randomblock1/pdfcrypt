@@ -1,14 +1,38 @@
 <script lang="ts">
-    import { PDFDocument } from 'pdf-lib-plus-encrypt';
+    import createModule from '@neslinesli93/qpdf-wasm';
     import { onMount } from 'svelte';
 
     let files: FileList | undefined = $state();
     let userPassword = $state('');
     let ownerPassword: string = $state('');
     let advanced = $state(false);
+    let qpdf: any = null;
 
-    onMount(() => {
-        // file handler reciever
+    onMount(async () => {
+        // Initialize QPDF WASM module
+        try {
+            qpdf = await createModule({
+                locateFile: () => '/wasm/qpdf.wasm',
+                noInitialRun: true,
+                preRun: [
+                    (module: any) => {
+                        if (module.FS) {
+                            try {
+                                module.FS.mkdir('/input');
+                                module.FS.mkdir('/output');
+                            } catch (e) {
+                                console.warn('Error creating directories:', e);
+                            }
+                        }
+                    },
+                ],
+            });
+            console.log('QPDF WASM module initialized successfully');
+        } catch (error) {
+            console.error('Failed to initialize QPDF WASM module:', error);
+        }
+
+        // file handler receiver
         if ('launchQueue' in window) {
             // @ts-ignore
             window.launchQueue.setConsumer((launchParams: { files: FileSystemFileHandle[] }) => {
@@ -68,7 +92,8 @@
         (userPassword.length > 0 || ownerPassword.length > 0) &&
             files &&
             files?.length > 0 &&
-            (advanced ? ownerPassword : true)
+            (advanced ? ownerPassword : true) &&
+            qpdf !== null
     );
 
     function download(data: Uint8Array, name: string, mimeType: string) {
@@ -92,30 +117,105 @@
     }
 
     async function encrypt(item: File) {
-        const existingPdfBytes = await item.arrayBuffer();
-
-        let pdfDoc: PDFDocument;
-        try {
-            pdfDoc = await PDFDocument.load(existingPdfBytes);
-        } catch (e) {
-            alert(e);
+        if (!qpdf) {
+            alert('QPDF module not yet initialized. Please wait a moment and try again.');
             return;
         }
 
-        // <= 1.3: 40-bit RC4
-        // <= 1.5: 128-bit RC4
-        // <= 1.7: 128-bit AES
-        // == 1.7ext3: 256-bit AESV3
-        // at least it's supposed to be, I think the software is bugged and ignores it
-        await pdfDoc.encrypt({
-            userPassword,
-            ownerPassword,
-            permissions
-        });
+        try {
+            const existingPdfBytes = await item.arrayBuffer();
+            const uint8Array = new Uint8Array(existingPdfBytes);
 
-        const pdfBytes = await pdfDoc.save();
+            // Generate unique filenames to avoid conflicts
+            const timestamp = Date.now();
+            const inputPath = `/input/input_${timestamp}.pdf`;
+            const outputPath = `/output/output_${timestamp}.pdf`;
 
-        download(pdfBytes, 'pdfcrypt-' + item.name, 'application/pdf');
+            // Write input file to virtual file system
+            qpdf.FS.writeFile(inputPath, uint8Array);
+
+            // Build QPDF command arguments
+            const args = [
+                inputPath,
+                '--encrypt'
+            ];
+
+            // Add passwords if provided
+            if (userPassword) {
+                args.push(`--user-password=${userPassword}`);
+            }
+            if (ownerPassword) {
+                args.push(`--owner-password=${ownerPassword}`);
+            }
+
+            // Use 256-bit encryption for security
+            args.push('--bits=256');
+
+            // Map permissions to QPDF options
+            if (advanced) {
+                // Printing permission
+                if (permissions.printing === 'highResolution' || permissions.printing === true) {
+                    args.push('--print=full');
+                } else if (permissions.printing === 'lowResolution') {
+                    args.push('--print=low');
+                } else {
+                    args.push('--print=none');
+                }
+
+                // Modify permission - map to QPDF's modify levels
+                if (permissions.modifying) {
+                    args.push('--modify=all');
+                } else {
+                    args.push('--modify=none');
+                }
+
+                // Other permissions
+                args.push(`--extract=${permissions.copying ? 'y' : 'n'}`);
+                args.push(`--annotate=${permissions.annotating ? 'y' : 'n'}`);
+                args.push(`--form=${permissions.fillingForms ? 'y' : 'n'}`);
+                args.push(`--accessibility=${permissions.contentAccessibility ? 'y' : 'n'}`);
+                args.push(`--assemble=${permissions.documentAssembly ? 'y' : 'n'}`);
+            } else {
+                // Default permissions when not in advanced mode (allow everything)
+                args.push('--print=full');
+                args.push('--modify=all');
+                args.push('--extract=y');
+                args.push('--annotate=y');
+                args.push('--form=y');
+                args.push('--accessibility=y');
+                args.push('--assemble=y');
+            }
+
+            // End encryption options and specify output file
+            args.push('--');
+            args.push(outputPath);
+
+            // Execute QPDF encryption
+            const exitCode = qpdf.callMain(args);
+
+            if (exitCode !== 0) {
+                alert('Error encrypting PDF. Exit code: ' + exitCode);
+                return;
+            }
+
+            // Read the encrypted output file
+            const outputFile = qpdf.FS.readFile(outputPath);
+
+            // Clean up virtual file system
+            try {
+                qpdf.FS.unlink(inputPath);
+                qpdf.FS.unlink(outputPath);
+            } catch (cleanupError) {
+                console.warn('Error cleaning up files:', cleanupError);
+            }
+
+            // Download the encrypted PDF
+            download(outputFile, 'pdfcrypt-' + item.name, 'application/pdf');
+
+        } catch (error) {
+            console.error('Encryption error:', error);
+            alert('Error encrypting PDF: ' + error);
+        }
     }
 </script>
 
