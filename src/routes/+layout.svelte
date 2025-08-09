@@ -38,16 +38,20 @@
     <a href="/" class="flex items-center m-4">
         <img src="favicon.svg" alt="PDFCrypt" class="h-16 align-middle mx-4" />
         <h1
-            class="text-4xl rounded-lg p-2.5 {isHomePage
-                ? 'bg-primary text-white'
-                : 'border-primary border-2 text-primary bg-transparent'}">
+            class="text-4xl rounded-lg p-2.5 border-2 {isHomePage
+                ? 'bg-primary text-white border-transparent'
+                : 'border-primary text-primary bg-transparent'}">
             PDFCrypt
         </h1>
     </a>
     <ul
         class="menu menu-horizontal bg-base-200 rounded-box mx-4 w-full md:w-fit md:my-8 items-center justify-self-center">
         <li>
-            <a href="/install" class:active={$page.url.pathname === '/install'}>
+            <a
+                href="/install"
+                class="transition-colors"
+                class:bg-primary={$page.url.pathname === '/install'}
+                class:text-white={$page.url.pathname === '/install'}>
                 {#if isPwa}
                     Installed<span class="fa-solid fa-check"></span>
                 {:else}
@@ -59,14 +63,20 @@
             <a
                 href="https://github.com/randomblock1/pdfcrypt"
                 target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+                class="transition-colors">
                 Source Code
                 <span class="fa-solid fa-code"></span>
             </a>
         </li>
         <li>
-            <a href="/privacy" class:active={$page.url.pathname === '/privacy'}
-                >Privacy Policy<span class="fa-solid fa-eye-slash"></span></a>
+            <a
+                href="/privacy"
+                class="transition-colors"
+                class:bg-primary={$page.url.pathname === '/privacy'}
+                class:text-white={$page.url.pathname === '/privacy'}>
+                Privacy Policy<span class="fa-solid fa-eye-slash"></span>
+            </a>
         </li>
     </ul>
 </div>
