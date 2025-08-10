@@ -45,7 +45,7 @@
         </h1>
     </a>
     <ul
-        class="menu menu-horizontal bg-base-200 rounded-box mx-4 w-full md:w-fit md:my-8 items-center justify-self-center">
+        class="menu menu-horizontal bg-base-200 rounded-box mx-4 w-full md:w-fit md:my-8 items-center justify-self-center gap-2">
         <li>
             <a
                 href="/install"
@@ -66,7 +66,7 @@
                 rel="noopener noreferrer"
                 class="transition-colors">
                 Source Code
-                <span class="fa-solid fa-code"></span>
+                <span class="fa-solid fa-up-right-from-square"></span>
             </a>
         </li>
         <li>
