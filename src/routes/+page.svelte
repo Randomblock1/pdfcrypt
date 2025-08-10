@@ -111,6 +111,11 @@
     async function handleFiles() {
         if (!files) return;
         isEncrypting = true;
+        
+        // Give the UI a chance to update and show the loading state
+        // before starting the blocking encryption process
+        await new Promise(resolve => setTimeout(resolve, 0));
+        
         try {
             for (let i = 0; i < files.length; i++) {
                 const item = files.item(i);
@@ -130,6 +135,9 @@
         }
 
         try {
+            // Allow UI to breathe between file encryptions
+            await new Promise(resolve => setTimeout(resolve, 10));
+            
             const existingPdfBytes = await item.arrayBuffer();
             const uint8Array = new Uint8Array(existingPdfBytes);
 
