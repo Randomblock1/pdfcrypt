@@ -278,9 +278,8 @@
                     You must set an owner password for advanced permissions to work.
                 </div>
             {/if}
-            <button class="btn btn-primary my-4" disabled={!formValid} onclick={handleFiles}>
+            <button class="btn {isEncrypting ? 'btn-disabled' : 'btn-primary'} my-4" disabled={!formValid} onclick={handleFiles}>
                 {#if isEncrypting}
-                    <span class="loading loading-spinner loading-sm"></span>
                     Encrypting...
                 {:else}
                     Encrypt
