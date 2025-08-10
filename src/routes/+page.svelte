@@ -1,5 +1,6 @@
 <script lang="ts">
     import createModule from '@neslinesli93/qpdf-wasm';
+    import wasmUrl from '@neslinesli93/qpdf-wasm/dist/qpdf.wasm?url';
     import { onMount } from 'svelte';
 
     let files: FileList | undefined = $state();
@@ -13,7 +14,7 @@
         // Initialize QPDF WASM module
         try {
             qpdf = await createModule({
-                locateFile: () => '/wasm/qpdf.wasm',
+                locateFile: () => wasmUrl,
                 noInitialRun: true,
                 preRun: [
                     (module: any) => {
