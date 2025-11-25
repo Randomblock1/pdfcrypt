@@ -21,7 +21,6 @@
     import { resolve } from '$app/paths';
 
     let webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
-    let isHomePage = $derived(page.url.pathname === '/');
 
     interface Props {
         children?: import('svelte').Snippet;
@@ -54,7 +53,7 @@
     <a href={resolve('/')} class="flex items-center m-4">
         <img src="favicon.svg" alt="PDFCrypt" class="h-16 align-middle mx-4" />
         <h1
-            class="text-4xl rounded-lg p-2.5 border-2 {isHomePage
+            class="text-4xl rounded-lg p-2.5 border-2 {page.url.pathname === resolve('/')
                 ? 'bg-primary text-white border-transparent'
                 : 'border-primary text-primary bg-transparent'}">
             PDFCrypt
@@ -66,8 +65,8 @@
             <a
                 href={resolve('/install')}
                 class="transition-colors"
-                class:bg-primary={page.url.pathname === '/install'}
-                class:text-white={page.url.pathname === '/install'}>
+                class:bg-primary={page.url.pathname === resolve('/install')}
+                class:text-white={page.url.pathname === resolve('/install')}>
                 {#if isPwa}
                     Installed<FontAwesomeIcon icon={faCheck} />
                 {:else}
@@ -89,8 +88,8 @@
             <a
                 href={resolve('/privacy')}
                 class="transition-colors"
-                class:bg-primary={page.url.pathname === '/privacy'}
-                class:text-white={page.url.pathname === '/privacy'}>
+                class:bg-primary={page.url.pathname === resolve('/privacy')}
+                class:text-white={page.url.pathname === resolve('/privacy')}>
                 Privacy Policy<FontAwesomeIcon icon={faEyeSlash} />
             </a>
         </li>
