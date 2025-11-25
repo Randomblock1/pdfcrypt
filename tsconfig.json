@@ -9,7 +9,7 @@
         "skipLibCheck": true,
         "sourceMap": true,
         "strict": true,
-        "types": ["vite-plugin-pwa/info", "vite-plugin-pwa/client"]
+        "types": ["vite-plugin-pwa/info", "vite-plugin-pwa/client", "gtag.js"]
     }
     // Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
     //

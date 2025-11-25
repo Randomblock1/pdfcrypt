@@ -1,9 +1,12 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 import { readFile } from 'fs/promises';
+import tailwindcss from '@tailwindcss/vite';
+import { defineConfig } from 'vite';
 
-export default {
+export default defineConfig({
     plugins: [
+        tailwindcss(),
         sveltekit(),
         SvelteKitPWA({
             manifest: JSON.parse(await readFile('./static/manifest.webmanifest', 'utf-8')),
@@ -18,4 +21,4 @@ export default {
             }
         })
     ]
-};
+});

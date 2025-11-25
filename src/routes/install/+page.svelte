@@ -1,3 +1,7 @@
+<script>
+    import { resolve } from '$app/paths';
+</script>
+
 <svelte:head>
     <title>PDFCrypt - Installation</title>
     <script type="module" src="https://get.microsoft.com/badge/ms-store-badge.bundled.js"></script>
@@ -70,7 +74,8 @@
         </div>
     </div>
 
-    <a href="/" class="mx-4"><button class="btn btn-primary text-white mb-4">Go Back</button></a>
+    <a href={resolve('/')} class="mx-4"
+        ><button class="btn btn-primary text-white mb-4">Go Back</button></a>
 </div>
 
 <style>

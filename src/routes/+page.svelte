@@ -1,13 +1,20 @@
 <script lang="ts">
-    import createModule from '@neslinesli93/qpdf-wasm';
+    import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
+    import {
+        faInfoCircle,
+        faCircleExclamation,
+        faTriangleExclamation
+    } from '@fortawesome/free-solid-svg-icons';
+    import createModule, { type QpdfInstance } from '@neslinesli93/qpdf-wasm';
     import wasmUrl from '@neslinesli93/qpdf-wasm/dist/qpdf.wasm?url';
+
     import { onMount } from 'svelte';
 
     let files: FileList | undefined = $state();
     let userPassword = $state('');
     let ownerPassword: string = $state('');
     let advanced = $state(false);
-    let qpdf: any = null;
+    let qpdf: QpdfInstance | null = $state(null);
     let isEncrypting = $state(false);
 
     onMount(async () => {
@@ -15,9 +22,10 @@
         try {
             qpdf = await createModule({
                 locateFile: () => wasmUrl,
+                // @ts-expect-error missing from types
                 noInitialRun: true,
                 preRun: [
-                    (module: any) => {
+                    (module: QpdfInstance) => {
                         if (module.FS) {
                             try {
                                 module.FS.mkdir('/input');
@@ -36,7 +44,7 @@
 
         // file handler receiver
         if ('launchQueue' in window) {
-            // @ts-ignore
+            // @ts-expect-error will never be undefined in this block
             window.launchQueue.setConsumer((launchParams: { files: FileSystemFileHandle[] }) => {
                 loadSharedFiles(launchParams.files);
             });
@@ -45,7 +53,7 @@
         }
     });
 
-    export const fileListFromFileArray = (files: File[]) => {
+    const fileListFromFileArray = (files: File[]) => {
         const reducer = (dataTransfer: DataTransfer, file: File) => {
             dataTransfer.items.add(file);
             return dataTransfer;
@@ -101,7 +109,7 @@
 
     function download(data: Uint8Array, name: string, mimeType: string) {
         const a = document.createElement('a');
-        const blob = new Blob([data], { type: mimeType });
+        const blob = new Blob([data] as BlobPart[], { type: mimeType });
         const url = window.URL.createObjectURL(blob);
         a.href = url;
         a.download = name;
@@ -148,6 +156,7 @@
             const outputPath = `/output/output_${timestamp}.pdf`;
 
             // Write input file to virtual file system
+            // @ts-expect-error writeFile exists
             qpdf.FS.writeFile(inputPath, uint8Array);
 
             // Build QPDF command arguments
@@ -225,7 +234,9 @@
 
             // Clean up virtual file system
             try {
+                // @ts-expect-error unlink exists
                 qpdf.FS.unlink(inputPath);
+                // @ts-expect-error unlink exists
                 qpdf.FS.unlink(outputPath);
             } catch (cleanupError) {
                 console.warn('Error cleaning up files:', cleanupError);
@@ -268,14 +279,18 @@
                 type="password"
                 bind:value={userPassword} />
             <p class="mt-2">
-                <span class="fa-solid fa-info-circle fa-sm mr-1" style="color: steelblue"></span>
+                <FontAwesomeIcon
+                    icon={faInfoCircle}
+                    size="sm"
+                    style="color:steelblue"
+                    class="mr-1" />
                 Setting only a user password will require the password to view the file, and enable all
                 permissions. For security with 256-bit encryption, the owner password will be automatically
                 set to match the user password.
             </p>
             {#if advanced && !ownerPassword}
                 <div class="alert alert-error my-2">
-                    <span class="fa-solid fa-circle-exclamation"></span>
+                    <FontAwesomeIcon icon={faCircleExclamation} />
                     You must set an owner password for advanced permissions to work.
                 </div>
             {/if}
@@ -306,16 +321,18 @@
                     bind:value={ownerPassword} />
 
                 <p class="my-2">
-                    <span class="fa-solid fa-info-circle fa-sm" style="color: steelblue"></span>
+                    <FontAwesomeIcon icon={faInfoCircle} size="sm" style="color:steelblue" />
                     Setting an owner password will allow you to prevent whoever enters the user password
                     from performing cetain actions, like editing or signing. The owner password will
                     still have full permissions. If you only set the owner password, the user permissions
                     still apply, and you can enter the owner password to enable all permissions.
                 </p>
                 <p class="my-2">
-                    <span
-                        class="fa-solid fa-triangle-exclamation fa-fade fa-sm"
-                        style="color: orange;"></span>
+                    <FontAwesomeIcon
+                        icon={faTriangleExclamation}
+                        fade
+                        size="sm"
+                        style="color:orange" />
                     It is up to the PDF reader to enforce these security policies. Some do not.
                 </p>
 

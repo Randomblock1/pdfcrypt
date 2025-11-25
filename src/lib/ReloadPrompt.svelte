@@ -2,15 +2,15 @@
     import { useRegisterSW } from 'virtual:pwa-register/svelte';
     const { needRefresh, offlineReady, updateServiceWorker } = useRegisterSW({
         onRegistered(r) {
-            // uncomment following code if you want check for updates
-            r &&
+            if (r) {
                 setInterval(
                     () => {
                         console.log('Checking for sw update');
                         r.update();
                     },
-                    1000 * 60 * 60 * 24 /* 1 day */
+                    1000 * 60 * 60 /* 1 hour */
                 );
+            }
             console.log(`SW Registered: ${r}`);
         },
         onRegisterError(error) {
