@@ -18,6 +18,9 @@ export default defineConfig({
             devOptions: {
                 enabled: true,
                 suppressWarnings: true
+            },
+            kit: {
+                adapterFallback: '404.html'
             }
         })
     ]

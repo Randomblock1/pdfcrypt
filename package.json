@@ -12,7 +12,7 @@
         "format": "bunx --bun prettier --write ."
     },
     "devDependencies": {
-        "@eslint/compat": "^1.4.1",
+        "@eslint/compat": "^2.0.0",
         "@eslint/js": "^9.39.1",
         "@types/gtag.js": "^0.0.20",
         "@types/node": "^22.19.1",
