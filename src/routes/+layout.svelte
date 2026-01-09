@@ -9,7 +9,9 @@
         faCheck,
         faDownload,
         faUpRightFromSquare,
-        faEyeSlash
+        faEyeSlash,
+        faLock,
+        faLockOpen
     } from '@fortawesome/free-solid-svg-icons';
     import { config as fontawesomeConfig } from '@fortawesome/fontawesome-svg-core';
 
@@ -61,6 +63,24 @@
     </a>
     <ul
         class="menu menu-horizontal bg-base-200 rounded-box mx-4 w-full md:w-fit md:my-8 items-center justify-self-center gap-2">
+        <li>
+            <a
+                href={resolve('/')}
+                class="transition-colors"
+                class:bg-primary={page.url.pathname === resolve('/')}
+                class:text-white={page.url.pathname === resolve('/')}>
+                Encrypt<FontAwesomeIcon icon={faLock} />
+            </a>
+        </li>
+        <li>
+            <a
+                href={resolve('/decrypt')}
+                class="transition-colors"
+                class:bg-primary={page.url.pathname === resolve('/decrypt')}
+                class:text-white={page.url.pathname === resolve('/decrypt')}>
+                Decrypt<FontAwesomeIcon icon={faLockOpen} />
+            </a>
+        </li>
         <li>
             <a
                 href={resolve('/install')}
