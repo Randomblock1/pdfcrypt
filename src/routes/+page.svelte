@@ -314,6 +314,7 @@
                 <input type="checkbox" class="toggle toggle-primary ml-6" bind:checked={advanced} />
             </label>
             {#if advanced === true}
+                <br />
                 <label class="label" for="ownerPassword">Owner Password</label>
                 <input
                     class="input input-bordered hover:bg-base-200 w-full my-2"
