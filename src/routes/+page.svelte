@@ -314,6 +314,7 @@
                 <input type="checkbox" class="toggle toggle-primary ml-6" bind:checked={advanced} />
             </label>
             {#if advanced === true}
+                <br />
                 <label class="label" for="ownerPassword">Owner Password</label>
                 <input
                     class="input input-bordered hover:bg-base-200 w-full my-2"
@@ -323,7 +324,7 @@
                 <p class="my-2">
                     <FontAwesomeIcon icon={faInfoCircle} size="sm" style="color:steelblue" />
                     Setting an owner password will allow you to prevent whoever enters the user password
-                    from performing cetain actions, like editing or signing. The owner password will
+                    from performing certain actions, like editing or signing. The owner password will
                     still have full permissions. If you only set the owner password, the user permissions
                     still apply, and you can enter the owner password to enable all permissions.
                 </p>

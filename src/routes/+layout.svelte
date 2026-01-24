@@ -9,7 +9,9 @@
         faCheck,
         faDownload,
         faUpRightFromSquare,
-        faEyeSlash
+        faEyeSlash,
+        faLock,
+        faLockOpen
     } from '@fortawesome/free-solid-svg-icons';
     import { config as fontawesomeConfig } from '@fortawesome/fontawesome-svg-core';
 
@@ -53,14 +55,30 @@
     <a href={resolve('/')} class="flex items-center m-4">
         <img src="favicon.svg" alt="PDFCrypt" class="h-16 align-middle mx-4" />
         <h1
-            class="text-4xl rounded-lg p-2.5 border-2 {page.url.pathname === resolve('/')
-                ? 'bg-primary text-white border-transparent'
-                : 'border-primary text-primary bg-transparent'}">
+            class="text-4xl rounded-lg p-2.5 border-2 bg-primary text-white border-transparent">
             PDFCrypt
         </h1>
     </a>
     <ul
         class="menu menu-horizontal bg-base-200 rounded-box mx-4 w-full md:w-fit md:my-8 items-center justify-self-center gap-2">
+        <li>
+            <a
+                href={resolve('/')}
+                class="transition-colors"
+                class:bg-primary={page.url.pathname === resolve('/')}
+                class:text-white={page.url.pathname === resolve('/')}>
+                Encrypt<FontAwesomeIcon icon={faLock} />
+            </a>
+        </li>
+        <li>
+            <a
+                href={resolve('/decrypt')}
+                class="transition-colors"
+                class:bg-primary={page.url.pathname === resolve('/decrypt')}
+                class:text-white={page.url.pathname === resolve('/decrypt')}>
+                Decrypt<FontAwesomeIcon icon={faLockOpen} />
+            </a>
+        </li>
         <li>
             <a
                 href={resolve('/install')}
