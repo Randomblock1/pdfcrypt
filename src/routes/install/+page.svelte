@@ -1,7 +1,3 @@
-<script>
-    import { resolve } from '$app/paths';
-</script>
-
 <svelte:head>
     <title>PDFCrypt - Installation</title>
     <script type="module" src="https://get.microsoft.com/badge/ms-store-badge.bundled.js"></script>
@@ -32,7 +28,7 @@
                 these instructions:
             </p>
             <ol>
-                <li>- Open the app in Edge or Chrome.</li>
+                <li>- Open a Chrome-based browser.</li>
                 <li>- Click the installation icon in the address bar.</li>
                 <li>- Click "Install".</li>
             </ol>
@@ -40,15 +36,10 @@
 
         <div class="tile m-4 h-fit">
             <h2 class="text-2xl rounded-lg p-2.5 bg-primary text-white mb-4 w-fit">Android</h2>
-            <p>
-                Chrome-based Android browsers have a little drawer appear at the bottom of the
-                screen when you visit the app. Drag it upwards to show screenshots & the install
-                button. Otherwise, follow these instructions:
-            </p>
             <ol>
-                <li>- Open the app in Chrome.</li>
-                <li>- Tap the three dots in the top right corner.</li>
-                <li>- Tap "Install App".</li>
+                <li>- Open a Chrome-based browser.</li>
+                <li>- Tap the three dots in the right side corner.</li>
+                <li>- Tap "Add to Home Screen".</li>
                 <li>- Tap "Install".</li>
             </ol>
         </div>
@@ -67,15 +58,12 @@
         <div class="tile m-4 h-fit">
             <h2 class="text-2xl rounded-lg p-2.5 bg-primary text-white mb-4 w-fit">MacOS</h2>
             <ol>
-                <li>- Open the app in Edge or Chrome.</li>
-                <li>- Click the installation icon in the address bar.</li>
-                <li>- Click "Install".</li>
+                <li>- Open the app in Safari. If you're using a Chrome-based browser, follow the Windows instructions instead.</li>
+                <li>- Click the share button in the address bar.</li>
+                <li>- Click "Add to Dock".</li>
             </ol>
         </div>
     </div>
-
-    <a href={resolve('/')} class="mx-4"
-        ><button class="btn btn-primary text-white mb-4">Go Back</button></a>
 </div>
 
 <style>

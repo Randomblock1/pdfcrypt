@@ -15,22 +15,18 @@
         </li>
         <li>
             - To help me understand how people use this site and to make it better, this app uses
-            Google Analytics. This uses cookies to collect anonymous data, such as which pages you
-            visit and how long you stay. No personally identifiable information is collected. If you
-            prefer not to be tracked, you can adjust your browser settings to disable cookies or use
-            a browser extension to block tracking.
+            Google Analytics. This collects anonymous data like as which pages you visit and how
+            long you stay. If you prefer not to be tracked, you can adjust your browser settings to
+            disable cookies or use a browser extension to block tracking.
         </li>
         <li>
-            - Cloudflare and GitHub are used to host the website. They may collect some data
-            including IP addresses and device information for the purpose of serving a website. This
-            also happens when installing from an app store, because it is a progressive web app and
-            it uses the website to update itself.
+            - Cloudflare is used to host the website. They may collect some data including IP
+            addresses and device information for the purpose of serving a website. This also happens
+            when installing from an app store, because it is a progressive web app and it uses the
+            website to update itself.
         </li>
     </ol>
 </div>
-
-<a href={resolve('/')} class="mx-4"
-    ><button class="btn btn-primary text-white my-4">Go Back</button></a>
 
 <style>
     .tile {
