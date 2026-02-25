@@ -5,6 +5,7 @@
     import wasmUrl from '@neslinesli93/qpdf-wasm/dist/qpdf.wasm?url';
 
     import { onMount } from 'svelte';
+    import { fileListFromFileArray, convertFileHandlesToFileList, download } from '$lib/file-utils';
 
     let files: FileList | undefined = $state();
     let password = $state('');
@@ -47,26 +48,6 @@
         }
     });
 
-    const fileListFromFileArray = (files: File[]) => {
-        const reducer = (dataTransfer: DataTransfer, file: File) => {
-            dataTransfer.items.add(file);
-            return dataTransfer;
-        };
-
-        return files.reduce(reducer, new DataTransfer()).files;
-    };
-
-    async function convertFileHandlesToFileList(fileHandles: FileSystemFileHandle[]) {
-        const files = await Promise.all(
-            fileHandles.map(async (fileHandle) => {
-                return fileHandle.getFile();
-            })
-        );
-
-        const fileList = fileListFromFileArray(files);
-        return fileList;
-    }
-
     async function loadSharedFiles(handles: FileSystemFileHandle[]) {
         files = await convertFileHandlesToFileList(handles);
         (document.getElementById('fileInput') as HTMLInputElement).files = files;
@@ -75,16 +56,6 @@
     let formValid = $derived(
         password.length > 0 && files && files?.length > 0 && qpdf !== null && !isDecrypting
     );
-
-    function download(data: Uint8Array, name: string, mimeType: string) {
-        const a = document.createElement('a');
-        const blob = new Blob([data] as BlobPart[], { type: mimeType });
-        const url = window.URL.createObjectURL(blob);
-        a.href = url;
-        a.download = name;
-        a.click();
-        window.URL.revokeObjectURL(url);
-    }
 
     async function handleFiles() {
         if (!files) return;
