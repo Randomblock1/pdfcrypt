@@ -391,13 +391,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    .tile {
-        line-height: 1.6;
-        padding: 1.5rem;
-        border: hsl(var(--p)) solid 2px;
-        border-radius: 10px;
-        background: hsl(var(--b2));
-    }
-</style>
