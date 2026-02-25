@@ -54,8 +54,7 @@
 <div class="flex flex-wrap sm:flex-row">
     <a href={resolve('/')} class="flex items-center m-4">
         <img src="favicon.svg" alt="PDFCrypt" class="h-16 align-middle mx-4" />
-        <h1
-            class="text-4xl rounded-lg p-2.5 border-2 bg-primary text-white border-transparent">
+        <h1 class="text-4xl rounded-lg p-2.5 border-2 bg-primary text-white border-transparent">
             PDFCrypt
         </h1>
     </a>

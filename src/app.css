@@ -20,3 +20,9 @@
         border-color: var(--color-gray-200, currentcolor);
     }
 }
+
+@layer components {
+    .tile {
+        @apply leading-[1.6] p-6 border-2 border-primary rounded-[10px] bg-base-200;
+    }
+}

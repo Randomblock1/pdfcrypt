@@ -58,20 +58,13 @@
         <div class="tile m-4 h-fit">
             <h2 class="text-2xl rounded-lg p-2.5 bg-primary text-white mb-4 w-fit">MacOS</h2>
             <ol>
-                <li>- Open the app in Safari. If you're using a Chrome-based browser, follow the Windows instructions instead.</li>
+                <li>
+                    - Open the app in Safari. If you're using a Chrome-based browser, follow the
+                    Windows instructions instead.
+                </li>
                 <li>- Click the share button in the address bar.</li>
                 <li>- Click "Add to Dock".</li>
             </ol>
         </div>
     </div>
 </div>
-
-<style>
-    .tile {
-        line-height: 1.6;
-        padding: 1.5rem;
-        border: hsl(var(--p)) solid 2px;
-        border-radius: 10px;
-        background: hsl(var(--b2));
-    }
-</style>
