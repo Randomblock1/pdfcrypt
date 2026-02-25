@@ -1,7 +1,3 @@
-<script>
-    import { resolve } from '$app/paths';
-</script>
-
 <svelte:head>
     <title>PDFCrypt - Privacy Policy</title>
 </svelte:head>
