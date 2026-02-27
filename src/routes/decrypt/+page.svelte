@@ -1,8 +1,8 @@
 <script lang="ts">
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
     import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-    import createModule, { type QpdfInstance } from '@neslinesli93/qpdf-wasm';
-    import wasmUrl from '@neslinesli93/qpdf-wasm/dist/qpdf.wasm?url';
+    import { type QpdfInstance } from '@neslinesli93/qpdf-wasm';
+    import { getQpdf } from '$lib/qpdf';
 
     import { onMount } from 'svelte';
     import { fileListFromFileArray, convertFileHandlesToFileList, download } from '$lib/file-utils';
@@ -15,23 +15,7 @@
     onMount(async () => {
         // Initialize QPDF WASM module
         try {
-            qpdf = await createModule({
-                locateFile: () => wasmUrl,
-                // @ts-expect-error missing from types
-                noInitialRun: true,
-                preRun: [
-                    (module: QpdfInstance) => {
-                        if (module.FS) {
-                            try {
-                                module.FS.mkdir('/input');
-                                module.FS.mkdir('/output');
-                            } catch (e) {
-                                console.warn('Error creating directories:', e);
-                            }
-                        }
-                    }
-                ]
-            });
+            qpdf = await getQpdf();
             console.log('QPDF WASM module initialized successfully');
         } catch (error) {
             console.error('Failed to initialize QPDF WASM module:', error);
